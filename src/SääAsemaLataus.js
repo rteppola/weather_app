@@ -68,8 +68,8 @@ import SääLataus from './SääLataus';
       
       if (this.state.ladattu === false){
           return(
-              <div>
-                <h3>Odota, ladataan tietoja...</h3>
+              <div className="container">
+                <h5>Odota, ladataan tietoja...</h5>
               </div>
           );
       }
@@ -111,9 +111,9 @@ import SääLataus from './SääLataus';
       }
       
         return (
-          <div className="container">         
+          <div className="container bg-dark text-white">         
             
-            <select id="lista" className="form-control inputstl" size="8" onClick={this.handleSelectClick}>
+            <select id="lista" className="form-control bg-secondary text-white" size="8" onClick={this.handleSelectClick}>
               {this.state.options}
             </select>
             

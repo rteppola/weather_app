@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 class App extends Component {
   render() {
     return (
-      <div className="container">
-        <h3>Tiesää sovellus</h3>
+      <div className="container bg-dark text-white">
+        <h4>Tiesää sovellus</h4>
       </div>
     );
   }

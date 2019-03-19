@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {sääasemadata} from './sääasema';
 
+
   class SääLataus extends Component {
 
     constructor(props){
@@ -58,8 +59,9 @@ import {sääasemadata} from './sääasema';
     
       if (this.state.ladattu === false){
           return(
-              <div>
-                <h3>Odota, ladataan tietoja...</h3>
+              <div className="container">
+                <p></p>
+                <h5>Odota, ladataan tietoja...</h5>
               </div>
           );
       }
@@ -104,7 +106,7 @@ import {sääasemadata} from './sääasema';
                 tiedot.push(
                 <tr key={i}>
                     <td>{sensori_id}</td>
-                    <td>{nimi}</td>
+                    <td>{nimi.toLowerCase()}</td>
                     <td>{arvo}</td>
                     <td>{yksikkö}</td>
                 </tr>);           
@@ -127,7 +129,7 @@ import {sääasemadata} from './sääasema';
                     </thead>
                     <tbody>
                         <tr>
-                           <td>{this.props.asema_nimi_parentilta}</td>
+                           <td>{this.props.asema_nimi_parentilta} {this.props.asema_id_parentilta}</td>
                            <td>{pvm_aika}</td>
                         </tr>
                     </tbody>
@@ -135,7 +137,7 @@ import {sääasemadata} from './sääasema';
                 <table className="table table-sm table-dark">
                     <thead>
                         <tr>
-                        <th scope="col">sensori #</th>
+                        <th scope="col">ant. #</th>
                         <th scope="col">nimi</th>
                         <th scope="col">arvo</th>
                         <th scope="col">yksikkö</th>
