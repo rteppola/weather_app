@@ -107,7 +107,7 @@ import {sääasemadata} from './sääasema';
                 <tr key={i}>
                     <td>{sensori_id}</td>
                     <td>{nimi.toLowerCase()}</td>
-                    <td class="text-right">{arvo}</td>
+                    <td className="text-right">{arvo}</td>
                     <td>{yksikkö}</td>
                 </tr>);           
                 sensori_löytyi = false;

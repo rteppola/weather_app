@@ -13,10 +13,11 @@ import SääLataus from './SääLataus';
     }
 
     handleSelectClick(event) {
-      //console.log("SääAsemaLataus.handleSelectClick: ", event.target.value);
       if (event.target.value.length > 0) {
-        console.log("value: ", event.target.value, "text: ", event.target.text);
-        this.setState({asema_id: event.target.value, asema_nimi: event.target.text});
+        let index = event.nativeEvent.target.selectedIndex;
+        let nimi = event.nativeEvent.target[index].text;
+        console.log("value: ", event.target.value, "text: ", nimi);
+        this.setState( { asema_nimi: nimi, asema_id: event.target.value } );
       }
     }
 
@@ -106,20 +107,24 @@ import SääLataus from './SääLataus';
           }
         }
       
-        this.setState({options: tmp_options}); // talteen
+        this.setState({options: tmp_options}); // talteen, tämähän aiheuttaa uuder render kutsun
         
       }
-      
+     //  <select id="lista" className="form-control bg-secondary text-white" size="8" onClick={this.handleSelectClick} onTouchStart={this.handleSelectClick}>
         return (
-          <div className="container bg-dark text-white">         
-            
-            <select id="lista" className="form-control bg-secondary text-white" size="8" onClick={this.handleSelectClick}>
-              {this.state.options}
-            </select>
-            
-            <SääLataus  
-              asema_id_parentilta = {this.state.asema_id}
-              asema_nimi_parentilta = {this.state.asema_nimi}/>              
+          <div>
+            <form>
+              <div className="form-group container bg-dark text-white">         
+                <select id="lista" className="form-control bg-secondary text-white" size="8" onChange={this.handleSelectClick}>
+                  {this.state.options}
+                </select>
+              </div>
+            </form>
+            <div className="container bg-dark text-white">
+              <SääLataus  
+                asema_id_parentilta = {this.state.asema_id}
+                asema_nimi_parentilta = {this.state.asema_nimi}/>              
+            </div>
           </div>
         );
       }
