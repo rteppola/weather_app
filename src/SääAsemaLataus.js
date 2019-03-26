@@ -79,7 +79,7 @@ import SääLataus from './SääLataus';
       else {
        
       
-      this.teeValintalista();
+      this.teeValintalista(this.state.data);
      
         return (
           <div>
@@ -100,13 +100,13 @@ import SääLataus from './SääLataus';
       }
     }
 
-    teeValintalista(json_data) { // luodaan ja järjestetään valintalista 
+    teeValintalista(data) { // luodaan ja järjestetään valintalista 
+      let tmp_options = [];
+      let tmp2_options = [];
       if (this.state.options === null) {
-        let tmp_options = [];
-        let tmp2_options = [];
-        for (let index = 0; index < this.state.data.features.length; index++) {
-          let id = this.state.data.features[index].id;
-          let nimi = this.state.data.features[index].properties.names.fi;
+        for (let index = 0; index < data.features.length; index++) {
+          let id = data.features[index].id;
+          let nimi = data.features[index].properties.names.fi;
           tmp2_options[index] = { id: id, nimi: nimi };
         }
         tmp2_options.sort(this.dynamicSort("nimi"));
@@ -117,7 +117,7 @@ import SääLataus from './SääLataus';
         }
         this.setState({ options: tmp_options }); // talteen, tämähän aiheuttaa uuder render kutsun
       }
-    return;
+    return(tmp_options);
     }
 
   }
