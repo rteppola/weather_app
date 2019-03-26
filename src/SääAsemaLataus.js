@@ -49,6 +49,8 @@ import SääLataus from './SääLataus';
             console.log("Fetch-kutsu valmis!");
             //console.log(json);
 
+            //this.teeValintalista();      //someday this will work...
+
             lista_komponentti.setState({ladattu: true, asema_id: 12001, data: json});
             console.log("SetState-rutiinia kutsuttu");
             }
@@ -76,35 +78,9 @@ import SääLataus from './SääLataus';
       }
       else {
        
-      // luodaan ja järjestetään valintalista 
-      if (this.state.options === null) {
-        let tmp_options=[];
-        let tmp2_options=[];
-        for (let index = 0; index < this.state.data.features.length; index++) {
-
-          let id = this.state.data.features[index].id;
-          let nimi = this.state.data.features[index].properties.names.fi;
-
-          tmp2_options[index] = { id: id, nimi: nimi };
-        }
-
-        tmp2_options.sort(this.dynamicSort("nimi"));
-
-        for (let index = 0; index < tmp2_options.length; index++) {
-
-          let id = tmp2_options[index].id;
-          let nimi = tmp2_options[index].nimi;
-    
-          tmp_options.push(
-              <option key={id} value={id} >{nimi}</option>
-          );         
-        }
-        console.log("SääAsemaLataus.render setState kutsu");
-        this.setState({options: tmp_options}); // talteen, tämähän aiheuttaa uuder render kutsun
-        console.log("SääAsemaLataus.render setState kutsu loppu");
-        
-      }
-     //  <select id="lista" className="form-control bg-secondary text-white" size="8" onClick={this.handleSelectClick} onTouchStart={this.handleSelectClick}>
+      
+      this.teeValintalista();
+     
         return (
           <div>
             <form>
@@ -123,5 +99,26 @@ import SääLataus from './SääLataus';
         );
       }
     }
+
+    teeValintalista(json_data) { // luodaan ja järjestetään valintalista 
+      if (this.state.options === null) {
+        let tmp_options = [];
+        let tmp2_options = [];
+        for (let index = 0; index < this.state.data.features.length; index++) {
+          let id = this.state.data.features[index].id;
+          let nimi = this.state.data.features[index].properties.names.fi;
+          tmp2_options[index] = { id: id, nimi: nimi };
+        }
+        tmp2_options.sort(this.dynamicSort("nimi"));
+        for (let index = 0; index < tmp2_options.length; index++) {
+          let id = tmp2_options[index].id;
+          let nimi = tmp2_options[index].nimi;
+          tmp_options.push(<option key={id} value={id}>{nimi}</option>);
+        }
+        this.setState({ options: tmp_options }); // talteen, tämähän aiheuttaa uuder render kutsun
+      }
+    return;
+    }
+
   }
 export default SääAsemaLataus;
