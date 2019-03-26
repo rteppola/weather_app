@@ -47,7 +47,7 @@ import SääLataus from './SääLataus';
         .then(json => {
             
             console.log("Fetch-kutsu valmis!");
-            console.log(json);
+            //console.log(json);
 
             lista_komponentti.setState({ladattu: true, asema_id: 12001, data: json});
             console.log("SetState-rutiinia kutsuttu");
@@ -95,19 +95,13 @@ import SääLataus from './SääLataus';
           let id = tmp2_options[index].id;
           let nimi = tmp2_options[index].nimi;
     
-          if (tmp2_options[index].id === 12001){   // default valinta 12001
-            tmp_options.push(
-              <option key={id} value={id} selected>{nimi}</option>
-            );
-          }
-          else{ 
-            tmp_options.push(
+          tmp_options.push(
               <option key={id} value={id} >{nimi}</option>
-            );
-          }
+          );         
         }
-      
+        console.log("SääAsemaLataus.render setState kutsu");
         this.setState({options: tmp_options}); // talteen, tämähän aiheuttaa uuder render kutsun
+        console.log("SääAsemaLataus.render setState kutsu loppu");
         
       }
      //  <select id="lista" className="form-control bg-secondary text-white" size="8" onClick={this.handleSelectClick} onTouchStart={this.handleSelectClick}>
@@ -115,7 +109,7 @@ import SääLataus from './SääLataus';
           <div>
             <form>
               <div className="form-group container bg-dark text-white">         
-                <select id="lista" className="form-control bg-secondary text-white" size="8" onChange={this.handleSelectClick}>
+                <select value={this.state.asema_id} id="lista" className="form-control bg-secondary text-white" size="8" onChange={this.handleSelectClick}>
                   {this.state.options}
                 </select>
               </div>
