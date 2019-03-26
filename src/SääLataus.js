@@ -19,23 +19,20 @@ import {sääasemadata} from './sääasema';
         let komponentti = this;
         let url = "http://tie.digitraffic.fi/api/v1/data/weather-data/" + this.props.asema_id_parentilta;
         console.log ("SääLataus.getWeatherData: url: ", url);
-        komponentti.setState({asema_id:  this.props.asema_id_parentilta});
+        komponentti.setState( {asema_id:  this.props.asema_id_parentilta, ladattu: false } );
         if (true){   // true ladataan verkosta, false käytetään tiedoston dataa
             
-            //fetch('http://tie.digitraffic.fi/api/v1/data/weather-data/12001')
             fetch(url)
             .then(response => response.json())
             .then(json => {
                 
-                console.log("Fetch-kutsu valmis!");
-                console.log(json);
-
-            
+                console.log("SääLataus.getWeatherData: Fetch-kutsu valmis!");
+//                console.log(json);
                 komponentti.setState({ladattu: true, data: json });
-                console.log("SetState-rutiinia kutsuttu");
+                console.log("SääLataus.getWeatherData: SetState-rutiinia kutsuttu");
                 }
             );
-        console.log("SääLataus.componentDidMount: fetch-kutsu tehty.");
+        console.log("SääLataus.getWeatherData: fetch-kutsu tehty.");
         }
         else
         {
@@ -53,11 +50,15 @@ import {sääasemadata} from './sääasema';
     if((this.state.asema_id !== this.props.asema_id_parentilta) && this.state.ladattu ===true  ) // jos uusi haku
     {
         console.log("SääLataus.render: Päivitys lähtee kohta.");
-        this.setState({ladattu: false});
+        //this.setState({ladattu: false});
         this.getWeatherData();
+    }
+    else{
+        console.log("SääLataus.render: Ei uusi haku.");
     }
     
       if (this.state.ladattu === false){
+        console.log("SääLataus.render: Odota, ladataan tietoja...");
           return(
               <div className="container">
                 <p></p>
@@ -67,7 +68,7 @@ import {sääasemadata} from './sääasema';
       }
       else 
       {
-        let id_taulu =  [ 1, 2, 3, 4, 7, 16, 17, 18, 21, 22, 23, 25, 26, 28, 99 ];  //tulostettavat sensori id:t
+        let id_taulu =  [ 1, 2, 3, 4, 7, 16, 17, 18, 21, 22, 23, 25, 26, 28, 58, 99 ];  //tulostettavat sensori id:t
         let asema = this.state.data.weatherStations[0];
         let sensori = this.state.data.weatherStations[0].sensorValues;  // taulukkoviittaus sensoriarvoihin
         let tiedot = [];                                                // tulostettava html taulu
@@ -87,7 +88,7 @@ import {sääasemadata} from './sääasema';
                 }
                 else{
                     nimi = sensori[index].name.toLowerCase();
-                    nimi = nimi.replace(/_/g, " ");
+                    nimi = nimi.replace(/_/g, " ");             // replace "_" with " "
                     arvo = sensori[index].sensorValue;
                     yksikkö = sensori[index].sensorUnit;
                     if ((yksikkö === "///") || (yksikkö === "***") ){

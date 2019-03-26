@@ -7,7 +7,7 @@ import SääLataus from './SääLataus';
     constructor(props){
       super(props);
       console.log("SääAsemaLataus.constructor");
-      this.state = {ladattu: false, asema_id: 12001, asema_nimi: "Tie 4 Oulu, Ouluntulli", data: null, options: null };
+      this.state = {ladattu: false, asema_id: 12001, asema_nimi: "Tie 4 Oulu, Ouluntulli", options: null };
 
       this.handleSelectClick = this.handleSelectClick.bind(this);
     }
@@ -48,20 +48,19 @@ import SääLataus from './SääLataus';
             
             console.log("Fetch-kutsu valmis!");
             //console.log(json);
-
-            //this.teeValintalista();      //someday this will work...
-
-            lista_komponentti.setState({ladattu: true, asema_id: 12001, data: json});
+            let stationList;
+            stationList = this.teeValintalista(json);
+            lista_komponentti.setState({ladattu: true, options: stationList});
             console.log("SetState-rutiinia kutsuttu");
             }
         );
         
         console.log("SääAsemaLataus.componentDidMount: fetch-kutsu tehty.");
         }
-    else
+    else  // this will not work anymore as option list is created already in componentDidMount.
         {
         //lista_komponentti.setState({ladattu: true, asema_id: 0, data: sääasemalista});
-        this.setState({ladattu: true, asema_id: 12001, data: sääasemalista});
+        this.setState({ladattu: true, asema_id: 12001, data: sääasemalista});  
         console.log("SääAsemaLataus.componentDidMount: käytetään tallennettu dataa.");  
         };
     }
@@ -76,11 +75,7 @@ import SääLataus from './SääLataus';
               </div>
           );
       }
-      else {
-       
-      
-      this.teeValintalista(this.state.data);
-     
+      else {           
         return (
           <div>
             <form>
@@ -115,7 +110,6 @@ import SääLataus from './SääLataus';
           let nimi = tmp2_options[index].nimi;
           tmp_options.push(<option key={id} value={id}>{nimi}</option>);
         }
-        this.setState({ options: tmp_options }); // talteen, tämähän aiheuttaa uuder render kutsun
       }
     return(tmp_options);
     }
