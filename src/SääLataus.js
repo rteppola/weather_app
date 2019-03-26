@@ -86,7 +86,8 @@ import {sääasemadata} from './sääasema';
                     index++;
                 }
                 else{
-                    nimi = sensori[index].name;
+                    nimi = sensori[index].name.toLowerCase();
+                    nimi = nimi.replace(/_/g, " ");
                     arvo = sensori[index].sensorValue;
                     yksikkö = sensori[index].sensorUnit;
                     if ((yksikkö === "///") || (yksikkö === "***") ){
@@ -106,7 +107,7 @@ import {sääasemadata} from './sääasema';
                 tiedot.push(
                 <tr key={i}>
                     <td>{sensori_id}</td>
-                    <td>{nimi.toLowerCase()}</td>
+                    <td>{nimi}</td>
                     <td className="text-right">{arvo}</td>
                     <td>{yksikkö}</td>
                 </tr>);           
