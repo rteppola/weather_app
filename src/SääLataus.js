@@ -68,7 +68,7 @@ import {sääasemadata} from './sääasema';
       }
       else 
       {
-        let id_taulu =  [ 1, 2, 3, 4, 7, 16, 17, 18, 21, 22, 23, 25, 26, 28, 58, 99 ];  //tulostettavat sensori id:t
+        let id_taulu =  [ 1, 2, 3, 4, 7, 16, 17, 18, 21, 22, 23, 25, 26, 27, 99 ];  //tulostettavat sensori id:t
         let asema = this.state.data.weatherStations[0];
         let sensori = this.state.data.weatherStations[0].sensorValues;  // taulukkoviittaus sensoriarvoihin
         let tiedot = [];                                                // tulostettava html taulu
