@@ -12,51 +12,13 @@ import {sääasemadata} from './sääasema';
 
     componentDidMount() {
         console.log("SääLataus.componentDidMount");
-//        this.getWeatherData_old();
-    }
-
-    getWeatherData_old() {
-        let komponentti = this;
-        let url = "http://tie.digitraffic.fi/api/v1/data/weather-data/" + this.props.asema_id_parentilta;
-        console.log ("SääLataus.getWeatherData_old: url: ", url);
-        komponentti.setState( {asema_id:  this.props.asema_id_parentilta, ladattu: false } );
-        if (true){   // true ladataan verkosta, false käytetään tiedoston dataa
-            
-            fetch(url)
-            .then(response => response.json())
-            .then(json => {
-                
-                console.log("SääLataus.getWeatherData_old: Fetch-kutsu valmis!");
-//                console.log(json);
-                komponentti.setState({ladattu: true, data: json });
-                console.log("SääLataus.getWeatherData_old: SetState-rutiinia kutsuttu");
-                }
-            );
-        console.log("SääLataus.getWeatherData_old: fetch-kutsu tehty.");
-        }
-        else
-        {
-            komponentti.setState({ladattu: true, data: sääasemadata});
-            console.log("SääLataus.componentDidMount: käytetään tallennettua dataa.");    
-        };
-        
     }
 
     render() {
     console.log("SääLataus.render state.asema_id", this.state.asema_id);
     console.log("SääLataus.render props.asema_id_parentilta", this.props.asema_id_parentilta);
     console.log("SääLataus.render state.asema_nimi_parentilta", this.props.asema_nimi_parentilta);
-        
-    if((this.state.asema_id !== this.props.asema_id_parentilta) && this.state.ladattu ===true  ) // jos uusi haku
-    {
-        console.log("SääLataus.render: Päivitys lähtee kohta.");
-        //this.setState({ladattu: false});
-//        this.getWeatherData_old();
-    }
-    else{
-        console.log("SääLataus.render: Ei uusi haku.");
-    }
-    
+            
       if (this.props.weather_data_from_parent === null){
         console.log("SääLataus.render: Odota, ladataan tietoja...");
           return(
