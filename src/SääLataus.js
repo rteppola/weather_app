@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import {sääasemadata} from './sääasema';
-
 
   class SääLataus extends Component {
 
