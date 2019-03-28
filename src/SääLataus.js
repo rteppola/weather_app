@@ -7,7 +7,6 @@ import {sääasemadata} from './sääasema';
     constructor(props){
       super(props);
       console.log("SääLataus.constructor");
-      this.state = {ladattu: false, asema_id: 0, data: null};
     }
 
     componentDidMount() {
@@ -15,7 +14,6 @@ import {sääasemadata} from './sääasema';
     }
 
     render() {
-    console.log("SääLataus.render state.asema_id", this.state.asema_id);
     console.log("SääLataus.render props.asema_id_parentilta", this.props.asema_id_parentilta);
     console.log("SääLataus.render state.asema_nimi_parentilta", this.props.asema_nimi_parentilta);
             
