@@ -12,13 +12,13 @@ import {sääasemadata} from './sääasema';
 
     componentDidMount() {
         console.log("SääLataus.componentDidMount");
-        this.getWeatherData();
+//        this.getWeatherData_old();
     }
 
-    getWeatherData() {
+    getWeatherData_old() {
         let komponentti = this;
         let url = "http://tie.digitraffic.fi/api/v1/data/weather-data/" + this.props.asema_id_parentilta;
-        console.log ("SääLataus.getWeatherData: url: ", url);
+        console.log ("SääLataus.getWeatherData_old: url: ", url);
         komponentti.setState( {asema_id:  this.props.asema_id_parentilta, ladattu: false } );
         if (true){   // true ladataan verkosta, false käytetään tiedoston dataa
             
@@ -26,18 +26,18 @@ import {sääasemadata} from './sääasema';
             .then(response => response.json())
             .then(json => {
                 
-                console.log("SääLataus.getWeatherData: Fetch-kutsu valmis!");
+                console.log("SääLataus.getWeatherData_old: Fetch-kutsu valmis!");
 //                console.log(json);
                 komponentti.setState({ladattu: true, data: json });
-                console.log("SääLataus.getWeatherData: SetState-rutiinia kutsuttu");
+                console.log("SääLataus.getWeatherData_old: SetState-rutiinia kutsuttu");
                 }
             );
-        console.log("SääLataus.getWeatherData: fetch-kutsu tehty.");
+        console.log("SääLataus.getWeatherData_old: fetch-kutsu tehty.");
         }
         else
         {
             komponentti.setState({ladattu: true, data: sääasemadata});
-            console.log("SääLataus.componentDidMount: käytetään tallennettu dataa.");    
+            console.log("SääLataus.componentDidMount: käytetään tallennettua dataa.");    
         };
         
     }
@@ -51,13 +51,13 @@ import {sääasemadata} from './sääasema';
     {
         console.log("SääLataus.render: Päivitys lähtee kohta.");
         //this.setState({ladattu: false});
-        this.getWeatherData();
+//        this.getWeatherData_old();
     }
     else{
         console.log("SääLataus.render: Ei uusi haku.");
     }
     
-      if (this.state.ladattu === false){
+      if (this.props.weather_data_from_parent === null){
         console.log("SääLataus.render: Odota, ladataan tietoja...");
           return(
               <div className="container">
@@ -69,8 +69,8 @@ import {sääasemadata} from './sääasema';
       else 
       {
         let id_taulu =  [ 1, 2, 3, 4, 7, 16, 17, 18, 21, 22, 23, 25, 26, 27, 99 ];  //tulostettavat sensori id:t
-        let asema = this.state.data.weatherStations[0];
-        let sensori = this.state.data.weatherStations[0].sensorValues;  // taulukkoviittaus sensoriarvoihin
+        let asema = this.props.weather_data_from_parent.weatherStations[0];
+        let sensori = this.props.weather_data_from_parent.weatherStations[0].sensorValues;  // taulukkoviittaus sensoriarvoihin
         let tiedot = [];                                                // tulostettava html taulu
 
         for (let i = 0; i < id_taulu.length; i++) {

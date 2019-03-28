@@ -7,7 +7,7 @@ import SääLataus from './SääLataus';
     constructor(props){
       super(props);
       console.log("SääAsemaLataus.constructor");
-      this.state = {ladattu: false, asema_id: 12001, asema_nimi: "Tie 4 Oulu, Ouluntulli", options: null };
+      this.state = {station_list_ready: false, asema_id: 12001, asema_nimi: "Tie 4 Oulu, Ouluntulli", options: null, weather_data: null };
 
       this.handleSelectClick = this.handleSelectClick.bind(this);
     }
@@ -16,10 +16,42 @@ import SääLataus from './SääLataus';
       if (event.target.value.length > 0) {
         let index = event.nativeEvent.target.selectedIndex;
         let nimi = event.nativeEvent.target[index].text;
+        let asema_id = event.target.value;
         console.log("value: ", event.target.value, "text: ", nimi);
-        this.setState( { asema_nimi: nimi, asema_id: event.target.value } );
+
+        this.setState( { asema_nimi: nimi, asema_id: asema_id } );
+        this.getWeatherData();
+        
       }
     }
+
+    getWeatherData() {
+      let komponentti = this;
+      let url = "http://tie.digitraffic.fi/api/v1/data/weather-data/" + this.state.asema_id;
+      console.log ("SääAsemaLataus.getWeatherData: url: ", url);
+      komponentti.setState( { station_list_ready: false } );
+      if (true){   // true ladataan verkosta, false käytetään tiedoston dataa
+          fetch(url)
+          .then(response => response.json())
+          .then(json => {
+              
+              console.log("SääAsemaLataus.getWeatherData: Fetch-kutsu valmis!");
+//                console.log(json);
+              komponentti.setState({station_list_ready: true, weather_data: json });
+              console.log("SääAsemaLataus.getWeatherData: SetState-rutiinia kutsuttu");
+              }
+          );
+      console.log("SääAsemaLataus.getWeatherData: fetch-kutsu tehty.");
+      }
+      else
+      {
+          //komponentti.setState({station_list_ready: true, data: sääasemadata});
+          console.log("SääLataus.componentDidMount: käytetään tallennettua dataa.");    
+      };
+      
+  }
+
+
 
     dynamicSort(property) {
       var sortOrder = 1;
@@ -50,17 +82,19 @@ import SääLataus from './SääLataus';
             //console.log(json);
             let stationList;
             stationList = this.teeValintalista(json);
-            lista_komponentti.setState({ladattu: true, options: stationList});
+            lista_komponentti.setState({station_list_ready: true, options: stationList});
             console.log("SetState-rutiinia kutsuttu");
             }
         );
         
         console.log("SääAsemaLataus.componentDidMount: fetch-kutsu tehty.");
+
+        this.getWeatherData(); // fetch the first (default) weather data
         }
     else  // this will not work anymore as option list is created already in componentDidMount.
         {
-        //lista_komponentti.setState({ladattu: true, asema_id: 0, data: sääasemalista});
-        this.setState({ladattu: true, asema_id: 12001, data: sääasemalista});  
+        //lista_komponentti.setState({station_list_ready: true, asema_id: 0, data: sääasemalista});
+        this.setState({station_list_ready: true, asema_id: 12001, data: sääasemalista});  
         console.log("SääAsemaLataus.componentDidMount: käytetään tallennettu dataa.");  
         };
     }
@@ -68,7 +102,7 @@ import SääLataus from './SääLataus';
     render() {
       console.log("SääAsemaLataus.render");
       
-      if (this.state.ladattu === false){
+      if (this.state.station_list_ready === false){
           return(
               <div className="container">
                 <h5>Odota, ladataan tietoja...</h5>
@@ -88,7 +122,8 @@ import SääLataus from './SääLataus';
             <div className="container bg-dark text-white">
               <SääLataus  
                 asema_id_parentilta = {this.state.asema_id}
-                asema_nimi_parentilta = {this.state.asema_nimi}/>              
+                asema_nimi_parentilta = {this.state.asema_nimi}
+                weather_data_from_parent = {this.state.weather_data}/>              
             </div>
           </div>
         );
