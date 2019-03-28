@@ -30,28 +30,19 @@ import SääLataus from './SääLataus';
       let url = "http://tie.digitraffic.fi/api/v1/data/weather-data/" + stationId;
       console.log ("SääAsemaLataus.getWeatherData: url: ", url);
       komponentti.setState( { station_list_ready: false } );
-      if (true){   // true ladataan verkosta, false käytetään tiedoston dataa
-          fetch(url)
-          .then(response => response.json())
-          .then(json => {
-              
-              console.log("SääAsemaLataus.getWeatherData: Fetch-kutsu valmis!");
-//                console.log(json);
-              komponentti.setState({station_list_ready: true, weather_data: json });
-              console.log("SääAsemaLataus.getWeatherData: SetState-rutiinia kutsuttu");
-              }
-          );
-      console.log("SääAsemaLataus.getWeatherData: fetch-kutsu tehty.");
-      }
-      else
-      {
-          //komponentti.setState({station_list_ready: true, data: sääasemadata});
-          console.log("SääLataus.componentDidMount: käytetään tallennettua dataa.");    
-      };
       
+      fetch(url)
+      .then(response => response.json())
+      .then(json => {
+          
+          console.log("SääAsemaLataus.getWeatherData: Fetch-kutsu valmis!");
+
+          komponentti.setState({station_list_ready: true, weather_data: json });
+          console.log("SääAsemaLataus.getWeatherData: SetState-rutiinia kutsuttu");
+          }
+      );
+      console.log("SääAsemaLataus.getWeatherData: fetch-kutsu tehty.");
   }
-
-
 
     dynamicSort(property) {
       var sortOrder = 1;
@@ -71,15 +62,14 @@ import SääLataus from './SääLataus';
     componentDidMount() {
     let lista_komponentti = this;
 
-    if (true){   // true ladataan verkosta, false käytetään tiedoston dataa
-        console.log("SääAsemaLataus.componentDidMount");
+      console.log("SääAsemaLataus.componentDidMount");
         
         fetch('https://tie.digitraffic.fi/api/v1/metadata/weather-stations')
         .then(response => response.json())
         .then(json => {
             
             console.log("Fetch-kutsu valmis!");
-            //console.log(json);
+
             let stationList;
             stationList = this.teeValintalista(json);
             lista_komponentti.setState({station_list_ready: true, options: stationList});
@@ -90,13 +80,8 @@ import SääLataus from './SääLataus';
         console.log("SääAsemaLataus.componentDidMount: fetch-kutsu tehty.");
 
         this.getWeatherData(this.state.asema_id); // fetch the first (default) weather data
-        }
-    else  // this will not work anymore as option list is created already in componentDidMount.
-        {
-        //lista_komponentti.setState({station_list_ready: true, asema_id: 0, data: sääasemalista});
         this.setState({station_list_ready: true, asema_id: 12001, data: sääasemalista});  
         console.log("SääAsemaLataus.componentDidMount: käytetään tallennettu dataa.");  
-        };
     }
 
     render() {
@@ -148,6 +133,5 @@ import SääLataus from './SääLataus';
       }
     return(tmp_options);
     }
-
   }
 export default SääAsemaLataus;
