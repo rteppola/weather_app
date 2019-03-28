@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {sääasemalista} from './sääasema';
 import SääLataus from './SääLataus';
 
   class SääAsemaLataus extends Component {
@@ -80,8 +79,6 @@ import SääLataus from './SääLataus';
         console.log("SääAsemaLataus.componentDidMount: fetch-kutsu tehty.");
 
         this.getWeatherData(this.state.asema_id); // fetch the first (default) weather data
-        this.setState({station_list_ready: true, asema_id: 12001, data: sääasemalista});  
-        console.log("SääAsemaLataus.componentDidMount: käytetään tallennettu dataa.");  
     }
 
     render() {
