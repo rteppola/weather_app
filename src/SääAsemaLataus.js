@@ -20,14 +20,14 @@ import SääLataus from './SääLataus';
         console.log("value: ", event.target.value, "text: ", nimi);
 
         this.setState( { asema_nimi: nimi, asema_id: asema_id } );
-        this.getWeatherData();
+        this.getWeatherData(asema_id);
         
       }
     }
 
-    getWeatherData() {
+    getWeatherData(stationId) {
       let komponentti = this;
-      let url = "http://tie.digitraffic.fi/api/v1/data/weather-data/" + this.state.asema_id;
+      let url = "http://tie.digitraffic.fi/api/v1/data/weather-data/" + stationId;
       console.log ("SääAsemaLataus.getWeatherData: url: ", url);
       komponentti.setState( { station_list_ready: false } );
       if (true){   // true ladataan verkosta, false käytetään tiedoston dataa
@@ -89,7 +89,7 @@ import SääLataus from './SääLataus';
         
         console.log("SääAsemaLataus.componentDidMount: fetch-kutsu tehty.");
 
-        this.getWeatherData(); // fetch the first (default) weather data
+        this.getWeatherData(this.state.asema_id); // fetch the first (default) weather data
         }
     else  // this will not work anymore as option list is created already in componentDidMount.
         {
