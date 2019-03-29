@@ -15,17 +15,17 @@ import React, { Component } from 'react';
     console.log("SääLataus.render props.asema_id_parentilta", this.props.asema_id_parentilta);
     console.log("SääLataus.render state.asema_nimi_parentilta", this.props.asema_nimi_parentilta);
             
-      if (this.props.weather_data_from_parent === null){
-        console.log("SääLataus.render: Odota, ladataan tietoja...");
-          return(
-              <div className="container">
-                <p></p>
-                <h5>Odota, ladataan tietoja...</h5>
-              </div>
-          );
-      }
-      else 
-      {
+    if (this.props.weather_data_from_parent === null){
+     console.log("SääLataus.render: Odota, ladataan tietoja...");
+        return(
+            <div className="container">
+            <p></p>
+            <h5>Odota, ladataan tietoja...</h5>
+            </div>
+        );
+    }
+    else 
+    {
         let id_taulu =  [ 1, 2, 3, 4, 7, 16, 17, 18, 21, 22, 23, 25, 26, 27, 99 ];  //tulostettavat sensori id:t
         let asema = this.props.weather_data_from_parent.weatherStations[0];
         let sensori = this.props.weather_data_from_parent.weatherStations[0].sensorValues;  // taulukkoviittaus sensoriarvoihin
@@ -37,8 +37,7 @@ import React, { Component } from 'react';
             let nimi;
             let arvo;
             let yksikkö;
-            let sensori_löytyi = false;
-            
+                        
             do{
                 sensori_id = sensori[index].id;
                 if (id_taulu[i] !== sensori_id){
@@ -49,7 +48,7 @@ import React, { Component } from 'react';
                     nimi = nimi.replace(/_/g, " ");             // replace "_" with " "
                     arvo = sensori[index].sensorValue;
                     yksikkö = sensori[index].sensorUnit;
-                    if ((yksikkö === "///") || (yksikkö === "***") ){
+                    if ( (yksikkö === "///") || (yksikkö === "***") ){
                         yksikkö = sensori[index].sensorValueDescriptionFi;
                     }
                     else{
@@ -57,21 +56,10 @@ import React, { Component } from 'react';
                             yksikkö = "";
                         }
                     }
-                    sensori_löytyi = true;
+                    addSensorRow(tiedot, i, sensori_id, nimi, arvo, yksikkö);                     
                     break;
                 }
             } while (index < sensori.length)
-                      
-            if (sensori_löytyi){
-                tiedot.push(
-                <tr key={i}>
-                    <td>{sensori_id}</td>
-                    <td>{nimi}</td>
-                    <td className="text-right">{arvo}</td>
-                    <td>{yksikkö}</td>
-                </tr>);           
-                sensori_löytyi = false;
-            } 
         }
 
         let pvm = new Date(asema.measuredTime);
@@ -89,8 +77,8 @@ import React, { Component } from 'react';
                     </thead>
                     <tbody>
                         <tr>
-                           <td>{this.props.asema_nimi_parentilta} {this.props.asema_id_parentilta}</td>
-                           <td>{pvm_aika}</td>
+                            <td>{this.props.asema_nimi_parentilta} {this.props.asema_id_parentilta}</td>
+                            <td>{pvm_aika}</td>
                         </tr>
                     </tbody>
                     </table>
@@ -104,13 +92,24 @@ import React, { Component } from 'react';
                         </tr>
                     </thead>
                     <tbody>
-                           {tiedot}
+                            {tiedot}
                     </tbody>
                 </table>   
             </div>
         );
-      }
     }
-  }
+}
+}
+
+
+function addSensorRow(tiedot, i, sensori_id, nimi, arvo, yksikkö) {
+        tiedot.push(<tr key={i}>
+            <td>{sensori_id}</td>
+            <td>{nimi}</td>
+            <td className="text-right">{arvo}</td>
+            <td>{yksikkö}</td>
+        </tr>);
+}
 
 export default SääLataus;
+
