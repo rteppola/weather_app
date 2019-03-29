@@ -47,16 +47,8 @@ import React, { Component } from 'react';
                     nimi = sensori[index].name.toLowerCase();
                     nimi = nimi.replace(/_/g, " ");             // replace "_" with " "
                     arvo = sensori[index].sensorValue;
-                    yksikkö = sensori[index].sensorUnit;
-                    if ( (yksikkö === "///") || (yksikkö === "***") ){
-                        yksikkö = sensori[index].sensorValueDescriptionFi;
-                    }
-                    else{
-                        if ((yksikkö === "???") || (yksikkö === "###") ){
-                            yksikkö = "";
-                        }
-                    }
-                    addSensorRow(tiedot, i, sensori_id, nimi, arvo, yksikkö);                     
+                    yksikkö = this.editUnitString(sensori[index].sensorUnit, sensori, index);
+                    this.addSensorRow(tiedot, i, sensori_id, nimi, arvo, yksikkö);                     
                     break;
                 }
             } while (index < sensori.length)
@@ -99,17 +91,31 @@ import React, { Component } from 'react';
         );
     }
 }
-}
 
+    editUnitString(unit, sensor, index) {
+          if ((unit === "///") || (unit === "***")) {
+              unit = sensor[index].sensorValueDescriptionFi;
+          }
+          else {
+              if ((unit === "???") || (unit === "###")) {
+                  unit = "";
+              }
+          }
+          return unit;
+    }
 
-function addSensorRow(tiedot, i, sensori_id, nimi, arvo, yksikkö) {
+    addSensorRow(tiedot, i, sensori_id, nimi, arvo, yksikkö) {
         tiedot.push(<tr key={i}>
             <td>{sensori_id}</td>
             <td>{nimi}</td>
             <td className="text-right">{arvo}</td>
             <td>{yksikkö}</td>
         </tr>);
+    }
 }
+
+
+
 
 export default SääLataus;
 
