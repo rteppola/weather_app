@@ -116,16 +116,33 @@ import SääLataus from './SääLataus';
       let tmp_options = [];
       let tmp2_options = [];
       if (this.state.options === null) {
+        let index2 = 0;
         for (let index = 0; index < data.features.length; index++) {
-          let id = data.features[index].id;
-          let nimi = data.features[index].properties.names.fi;
-          tmp2_options[index] = { id: id, nimi: nimi };
+          try {
+            let nimi = data.features[index].properties.names.fi;
+            let id = data.features[index].id;
+            if (nimi != null && id > 0 ) { //check that there is data for the current station
+              index2++;            
+              tmp2_options[index2] = { id: id, nimi: nimi };
+              console.log("id: ", id, "nimi: ", nimi);  
+            }
+          } 
+          catch (error) {
+            console.log("Error: ",error);
+          }
         }
         tmp2_options.sort(this.dynamicSort("nimi"));
         for (let index = 0; index < tmp2_options.length; index++) {
-          let id = tmp2_options[index].id;
-          let nimi = tmp2_options[index].nimi;
-          tmp_options.push(<option key={id} value={id}>{nimi}</option>);
+          try {
+            let id = tmp2_options[index].id;
+            let nimi = tmp2_options[index].nimi;  
+            if (nimi != null && id > 0 ) {
+              tmp_options.push(<option key={id} value={id}>{nimi}</option>);
+            }
+          } 
+          catch (error) {
+            console.log("Error: ",error);
+          }
         }
       }
     return(tmp_options);
