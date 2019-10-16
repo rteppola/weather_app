@@ -48,7 +48,7 @@ import React, { Component } from 'react';
                     nimi = nimi.replace(/_/g, " ");             // replace "_" with " "
                     arvo = sensori[index].sensorValue;
                     yksikkö = this.editUnitString(sensori[index].sensorUnit, sensori, index);
-                    this.addSensorRow(tiedot, i, sensori_id, nimi, arvo, yksikkö);                     
+                    this.addSensorRow(tiedot, i, nimi, arvo, yksikkö);                     
                     break;
                 }
             } while (index < sensori.length)
@@ -77,8 +77,7 @@ import React, { Component } from 'react';
                 <table className="table table-sm table-dark">
                     <thead>
                         <tr>
-                        <th scope="col">ant. #</th>
-                        <th scope="col">nimi</th>
+                        <th scope="col">nimi</th> 
                         <th scope="col" className="text-right">arvo</th>
                         <th scope="col">yksikkö</th>
                         </tr>
@@ -104,18 +103,14 @@ import React, { Component } from 'react';
           return unit;
     }
 
-    addSensorRow(tiedot, i, sensori_id, nimi, arvo, yksikkö) {
+    addSensorRow(tiedot, i, nimi, arvo, yksikkö) {
         tiedot.push(<tr key={i}>
-            <td>{sensori_id}</td>
             <td>{nimi}</td>
             <td className="text-right">{arvo}</td>
             <td>{yksikkö}</td>
         </tr>);
     }
 }
-
-
-
 
 export default SääLataus;
 
